@@ -3,24 +3,26 @@ package com.example.movies.ui
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.movies.adapter.SectionsPagerAdapter
+import com.example.movies.databinding.ActivityDashboardBinding
 import com.example.utilities.Constants.TAB_TITLES
-import com.example.movies.databinding.ActivityMainBinding
+
 import com.google.android.material.tabs.TabLayoutMediator
+import dagger.hilt.android.AndroidEntryPoint
 
-class MainActivity : AppCompatActivity() {
+@AndroidEntryPoint
+class DashboardActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityMainBinding
+    private lateinit var binding: ActivityDashboardBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        binding = ActivityMainBinding.inflate(layoutInflater)
+        binding = ActivityDashboardBinding.inflate(layoutInflater)
         setContentView(binding.root)
         loadTabLayout()
     }
 
     private fun loadTabLayout(){
-        val sectionsPagerAdapter = SectionsPagerAdapter(this, supportFragmentManager,lifecycle)
+        val sectionsPagerAdapter = SectionsPagerAdapter(supportFragmentManager,lifecycle)
 
         with(binding){
             viewPager.adapter = sectionsPagerAdapter

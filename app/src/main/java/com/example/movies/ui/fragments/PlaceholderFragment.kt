@@ -10,24 +10,25 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.movies.databinding.FragmentMainBinding
 import com.example.movies.viewModel.PageViewModel
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 /**
  * A placeholder fragment containing a simple view.
  */
+@AndroidEntryPoint
 class PlaceholderFragment : Fragment() {
 
-    private lateinit var pageViewModel: PageViewModel
+    @Inject
+    lateinit var pageViewModel: PageViewModel
+
     private var _binding: FragmentMainBinding? = null
 
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        pageViewModel = ViewModelProvider(this).get(PageViewModel::class.java).apply {
-            setIndex(arguments?.getInt(ARG_SECTION_NUMBER) ?: 1)
-        }
+        pageViewModel.getMovies(arguments?.getInt(ARG_SECTION_NUMBER) ?: 1)
     }
 
     override fun onCreateView(
@@ -36,13 +37,14 @@ class PlaceholderFragment : Fragment() {
     ): View {
 
         _binding = FragmentMainBinding.inflate(inflater, container, false)
-        val root = binding.root
+        listener()
+        return  binding.root
+    }
 
-        val textView: TextView = binding.sectionLabel
-        pageViewModel.text.observe(viewLifecycleOwner, Observer {
-            textView.text = it
+    private fun listener(){
+        pageViewModel.movies.observe(viewLifecycleOwner, {
+            print(it)
         })
-        return root
     }
 
     companion object {

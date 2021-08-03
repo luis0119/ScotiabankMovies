@@ -2,3 +2,6 @@ rootProject.name = "Movies"
 include ':app'
 include ':utilities'
 include ':domain'
+include ':application'
+include ':dataAccess'
+include ':deviceHadware'

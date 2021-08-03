@@ -1,19 +1,31 @@
 package com.example.movies.viewModel
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.*
+import com.example.application.useCase.GetMoviesUseCase
+import com.example.application.useCase.SaveMoviesUseCase
+import com.example.domain.aggregate.MovieRequest
+import com.example.domain.entity.Movie
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class PageViewModel : ViewModel() {
+class PageViewModel @Inject constructor(
+    private val getMoviesUseCase: GetMoviesUseCase,
+    private val saveMoviesUseCase: SaveMoviesUseCase
+) : ViewModel() {
 
-    private val _index = MutableLiveData<Int>()
-    val text: LiveData<String> = Transformations.map(_index) {
-        "Hello world from section: $it"
+
+    private var page = 1
+    private val _movies = MutableLiveData<List<Movie>>()
+    val movies get() = _movies
+
+    fun getMovies(position: Int) {
+        val movieRequest = MovieRequest(page, position)
+
+        viewModelScope.launch {
+            val result = getMoviesUseCase.execute(movieRequest)
+            saveMoviesUseCase.execute(movieRequest,result)
+            _movies.value = result.movies
+        }
     }
 
-    fun setIndex(index: Int) {
-        _index.value = index
-    }
 }
