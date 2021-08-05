@@ -23,7 +23,7 @@ class NetworkModule {
         val okHttpClient =  OkHttpClient.Builder()
             .readTimeout(5, TimeUnit.SECONDS)
             .connectTimeout(5, TimeUnit.SECONDS)
-            .retryOnConnectionFailure(true);
+            .retryOnConnectionFailure(true)
 
         val interceptor = HttpLoggingInterceptor();
         interceptor.apply { interceptor.level = HttpLoggingInterceptor.Level.BODY };

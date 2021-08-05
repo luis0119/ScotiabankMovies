@@ -4,18 +4,25 @@ import com.example.domain.aggregate.MovieRequest
 import com.example.domain.aggregate.MovieResponse
 import com.example.domain.exception.MoviesNotFound
 import com.example.domain.repository.MovieRepository
+import java.net.UnknownHostException
 import javax.inject.Inject
+import kotlin.Exception
 
 class MovieService @Inject constructor(
     private val repository: MovieRepository,
 ) {
 
 
-    suspend fun getMovies(movieRequest: MovieRequest) : MovieResponse {
-        val response = repository.getMovies(movieRequest)
-        return if (response.isSuccessful){
-            validateMovies(response.body())
-        }else{
+    suspend fun getMovies(movieRequest: MovieRequest): MovieResponse {
+        return try {
+            val response = repository.getMovies(movieRequest)
+
+            if (response.isSuccessful) {
+                validateMovies(response.body())
+            } else {
+                repository.getMoviesDB(movieRequest)
+            }
+        } catch (ex: UnknownHostException) {
             repository.getMoviesDB(movieRequest)
         }
     }

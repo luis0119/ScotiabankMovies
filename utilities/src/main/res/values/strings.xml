@@ -6,4 +6,18 @@
     <string name="popular">Popular</string>
     <string name="upcoming">Upcoming</string>
 
+    <!-- Alerts -->
+    <string name="title_user">Apreciado usuario </string>
+    <string name="wait">One moment, please</string>
+    <string name="search">Search</string>
+
+    <!-- Detail -->
+    <string name="titleMovie">Tile</string>
+    <string name="titleStadium">Stadium</string>
+    <string name="titleJersey">Jersey</string>
+    <string name="titleDescription">Description</string>
+    <string name="titleYear">Release date</string>
+    <string name="titleContact">Contacts</string>
+
+
 </resources>

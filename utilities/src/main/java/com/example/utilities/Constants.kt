@@ -2,7 +2,10 @@ package com.example.utilities
 
 object Constants {
 
+    //Url
     const val BASE_URL = "https://api.themoviedb.org/3/"
+    const val IMAGE_URL = "https://image.tmdb.org/t/p/w500"
+
     const val THREE_SECONDS : Long = 3000
 
     //Position Tabs
@@ -18,9 +21,13 @@ object Constants {
     //Exceptions
     const val NOT_FOUND_CATEGORY_MESSAGE = "No se encuentra esta categoria."
     const val NOT_FOUND_MOVIES_MESSAGE = "Por el momento no hay mas peliculas."
+    const val NOT_CONNECTION_INTERNET_MESSAGE = "No hay conexión a internet"
 
     //App
     const val API_KEY = "7d8753df41853fd10adbaa9e1746c1d4"
+    const val ARG_SECTION_NUMBER = "section_number"
+    const val DIRECTION_RECYCLER = 1
+    const val ARG_MOVIE = "movie"
 
     val TAB_TITLES = arrayOf(
         R.string.top_rated,

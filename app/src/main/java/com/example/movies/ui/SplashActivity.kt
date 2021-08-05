@@ -29,6 +29,7 @@ class SplashActivity : AppCompatActivity() {
     private fun goToDashboard(){
         val intent = Intent(this,DashboardActivity::class.java)
         startActivity(intent)
+        finish()
     }
 
 }

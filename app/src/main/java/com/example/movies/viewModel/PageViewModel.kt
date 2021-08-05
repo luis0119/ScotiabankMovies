@@ -15,16 +15,33 @@ class PageViewModel @Inject constructor(
 
 
     private var page = 1
+    private var moviesList = ArrayList<Movie>()
+
     private val _movies = MutableLiveData<List<Movie>>()
     val movies get() = _movies
+    private val _message = MutableLiveData<String>()
+    val message : LiveData<String> get() = _message
+    private val _progress =  MutableLiveData<Boolean>()
+    val progress : LiveData<Boolean> get() = _progress
 
     fun getMovies(position: Int) {
         val movieRequest = MovieRequest(page, position)
 
         viewModelScope.launch {
-            val result = getMoviesUseCase.execute(movieRequest)
-            saveMoviesUseCase.execute(movieRequest,result)
-            _movies.value = result.movies
+            _progress.value = true
+
+            try {
+                val result = getMoviesUseCase.execute(movieRequest)
+                moviesList.addAll(result.movies)
+                saveMoviesUseCase.execute(movieRequest,result)
+                movies.value = moviesList
+                page++
+            }catch (ex : Exception){
+                _message.value = ex.message!!
+            }finally {
+                _progress.value = false
+            }
+
         }
     }
 

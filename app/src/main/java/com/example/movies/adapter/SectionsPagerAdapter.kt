@@ -4,7 +4,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.example.movies.ui.fragments.PlaceholderFragment
+import com.example.movies.ui.fragments.MovieFragment
 import com.example.utilities.Constants.TAB_TITLES
 
 
@@ -19,6 +19,6 @@ class SectionsPagerAdapter(fragmentManager: FragmentManager,
     }
 
     override fun createFragment(position: Int): Fragment {
-        return PlaceholderFragment.newInstance(position)
+        return MovieFragment.newInstance(position)
     }
 }
