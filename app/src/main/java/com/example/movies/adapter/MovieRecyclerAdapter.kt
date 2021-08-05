@@ -1,41 +1,30 @@
 package com.example.movies.adapter
 
 import android.content.Context
-import android.graphics.drawable.Drawable
-
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Filter
 import android.widget.Filterable
-import android.widget.ImageView
-import android.widget.ProgressBar
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.bumptech.glide.Priority
-import com.bumptech.glide.load.DataSource
-import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.bumptech.glide.load.engine.GlideException
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
-import com.bumptech.glide.request.RequestListener
-import com.bumptech.glide.request.RequestOptions
-import com.bumptech.glide.request.target.Target
 import com.example.domain.entity.Movie
 import com.example.movies.R
 import com.example.movies.databinding.ItemMovieBinding
-import com.example.utilities.Constants.IMAGE_URL
+import com.example.utilities.Images
+import com.example.utilities.RequestImage
 
 
-class MovieRecyclerAdapter(private var movies: List<Movie>,
-                           private val context :Context,
-                           private val onMoviesListener: OnMoviesListener)
-    : RecyclerView.Adapter<MovieRecyclerAdapter.CustomViewHolder>(), Filterable {
+class MovieRecyclerAdapter(
+    private var movies: List<Movie>,
+    private val context: Context,
+    private val onMoviesListener: OnMoviesListener
+) : RecyclerView.Adapter<MovieRecyclerAdapter.CustomViewHolder>(), Filterable {
 
-    private  var moviesFilter: List<Movie> = ArrayList()
+    private var moviesFilter: List<Movie> = ArrayList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CustomViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
-        val itemBinding: ItemMovieBinding = ItemMovieBinding.inflate(layoutInflater,parent,false)
+        val itemBinding: ItemMovieBinding = ItemMovieBinding.inflate(layoutInflater, parent, false)
         return CustomViewHolder(itemBinding)
     }
 
@@ -49,49 +38,22 @@ class MovieRecyclerAdapter(private var movies: List<Movie>,
 
 
     override fun onBindViewHolder(holder: CustomViewHolder, position: Int) {
-        val item: ItemMovieBinding = holder.binding
         val movie = movies[position]
-        item.title.text = movie.title
-        item.cardView.setOnClickListener {
-            onMoviesListener.onItemClick(movie)
+        with(holder.binding) {
+            title.text = movie.title
+            overview.text = movie.overview
+            rating.text = movie.vote_average.toString()
+            cardView.setOnClickListener {
+                onMoviesListener.onItemClick(movie)
+            }
+            val requestImage =
+                RequestImage(progress, logo, movie.poster_path, context, 450, 300)
+            Images.loadImageURL(requestImage)
         }
-        loadImageURL(item.progress,item.logo,movie.poster_path)
     }
 
-    private fun loadImageURL(progressBar: ProgressBar,imageView: ImageView, url: String?) {
-        Glide.with(context)
-            .load(IMAGE_URL + url)
-            .diskCacheStrategy(DiskCacheStrategy.ALL)
-            .fitCenter()
-            .override(500,0)
-            .priority(Priority.HIGH)
-            .listener(object : RequestListener<Drawable> {
-                override fun onLoadFailed(
-                    e: GlideException?,
-                    model: Any?,
-                    target: Target<Drawable>?,
-                    isFirstResource: Boolean
-                ): Boolean {
-                    progressBar.visibility = View.INVISIBLE
-                    return isFirstResource
-                }
 
-                override fun onResourceReady(
-                    resource: Drawable?,
-                    model: Any?,
-                    target: Target<Drawable>?,
-                    dataSource: DataSource?,
-                    isFirstResource: Boolean
-                ): Boolean {
-                    progressBar.visibility = View.INVISIBLE
-                    imageView.setImageDrawable(resource)
-                    return isFirstResource
-                }
-            })
-            .into(imageView)
-    }
-
-    fun setMovies(movies :List<Movie>){
+    fun setMovies(movies: List<Movie>) {
         this.moviesFilter = movies
         this.movies = movies
         notifyDataSetChanged()
@@ -104,6 +66,7 @@ class MovieRecyclerAdapter(private var movies: List<Movie>,
 
     interface OnMoviesListener {
         fun onItemClick(movie: Movie)
+        fun isEmpty(visible: Int)
     }
 
     override fun getFilter(): Filter {
@@ -124,13 +87,25 @@ class MovieRecyclerAdapter(private var movies: List<Movie>,
             }
 
             override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
-
-                movies = if (results?.values == null)
+                movies = if (results?.values == null){
                     ArrayList()
-                else
+                }
+                else{
                     results.values as List<Movie>
+                }
+                validateFilter(movies)
                 notifyDataSetChanged()
+
             }
         }
     }
+
+    fun validateFilter(movies :List<Movie>){
+        if (movies.isEmpty()){
+            onMoviesListener.isEmpty(View.VISIBLE)
+        }else{
+            onMoviesListener.isEmpty(View.INVISIBLE)
+        }
+    }
+
 }

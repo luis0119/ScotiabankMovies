@@ -1,10 +1,13 @@
 package com.example.movies.viewModel
 
 import androidx.lifecycle.*
+import com.example.application.exception.CategoryNotFound
 import com.example.application.useCase.GetMoviesUseCase
 import com.example.application.useCase.SaveMoviesUseCase
 import com.example.domain.aggregate.MovieRequest
 import com.example.domain.entity.Movie
+import com.example.domain.exception.MoviesNotFound
+import com.example.utilities.Constants.ERROR_GENERAL_MESSAGE
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -37,11 +40,20 @@ class PageViewModel @Inject constructor(
                 movies.value = moviesList
                 page++
             }catch (ex : Exception){
-                _message.value = ex.message!!
+                validateException(ex)
             }finally {
                 _progress.value = false
             }
 
+        }
+    }
+
+    private fun validateException(ex : Exception){
+        when(ex){
+            is CategoryNotFound, is MoviesNotFound -> {
+                _message.value = ex.message!!
+            }
+            else -> _message.value = ERROR_GENERAL_MESSAGE
         }
     }
 

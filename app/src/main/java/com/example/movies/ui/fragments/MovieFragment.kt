@@ -135,4 +135,8 @@ class MovieFragment : BaseFragment(), MovieFragmentView, MovieRecyclerAdapter.On
         intent.putExtra(ARG_MOVIE,movie)
         startActivity(intent)
     }
+
+    override fun isEmpty(visible: Int) {
+        binding.listIsEmpty.visibility  = visible
+    }
 }

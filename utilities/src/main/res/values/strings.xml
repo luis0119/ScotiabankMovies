@@ -5,6 +5,7 @@
     <string name="top_rated">Top Rated</string>
     <string name="popular">Popular</string>
     <string name="upcoming">Upcoming</string>
+    <string name="list_is_empty">No movies found</string>
 
     <!-- Alerts -->
     <string name="title_user">Apreciado usuario </string>
@@ -12,12 +13,9 @@
     <string name="search">Search</string>
 
     <!-- Detail -->
-    <string name="titleMovie">Tile</string>
-    <string name="titleStadium">Stadium</string>
-    <string name="titleJersey">Jersey</string>
+    <string name="titleMovie">Title</string>
     <string name="titleDescription">Description</string>
     <string name="titleYear">Release date</string>
-    <string name="titleContact">Contacts</string>
 
 
 </resources>
