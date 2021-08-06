@@ -14,6 +14,7 @@ class MovieService @Inject constructor(
 
 
     suspend fun getMovies(movieRequest: MovieRequest): MovieResponse {
+
         return try {
             val response = repository.getMovies(movieRequest)
 
@@ -28,14 +29,15 @@ class MovieService @Inject constructor(
     }
 
     suspend fun saveMovies(movieRequest: MovieRequest,movieResponse: MovieResponse){
-        val data =  repository.getMoviesDB(movieRequest)
+        val data = repository.getMoviesDB(movieRequest)
+
         if (data.movies.isEmpty()) {
             repository.saveMovies(movieRequest.category,movieResponse)
         }
-
     }
 
     private fun validateMovies(result : MovieResponse?) : MovieResponse{
+
         if (result != null){
             return result
         }else {

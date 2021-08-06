@@ -5,6 +5,7 @@ import com.example.application.exception.CategoryNotFound
 import com.example.application.useCase.GetMoviesUseCase
 import com.example.application.useCase.SaveMoviesUseCase
 import com.example.domain.aggregate.MovieRequest
+import com.example.domain.aggregate.MovieResponse
 import com.example.domain.entity.Movie
 import com.example.domain.exception.MoviesNotFound
 import com.example.utilities.Constants.ERROR_GENERAL_MESSAGE
@@ -35,8 +36,8 @@ class PageViewModel @Inject constructor(
 
             try {
                 val result = getMoviesUseCase.execute(movieRequest)
-                moviesList.addAll(result.movies)
                 saveMoviesUseCase.execute(movieRequest,result)
+                moviesList.addAll(result.movies)
                 movies.value = moviesList
                 page++
             }catch (ex : Exception){
@@ -47,6 +48,8 @@ class PageViewModel @Inject constructor(
 
         }
     }
+
+
 
     private fun validateException(ex : Exception){
         when(ex){

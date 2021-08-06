@@ -13,7 +13,6 @@
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/application" />
             <option value="$PROJECT_DIR$/dataAccess" />
-            <option value="$PROJECT_DIR$/deviceHadware" />
             <option value="$PROJECT_DIR$/domain" />
             <option value="$PROJECT_DIR$/utilities" />
           </set>
