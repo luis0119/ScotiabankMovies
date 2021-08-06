@@ -88,7 +88,7 @@ En este modulo podemos encontrar los  archivos que nos pueden ayudar en las dist
 
 #### Clases:
 
-BaseFragment: tiene implementaciones de uso general para los fragmentos en este caso alerta y progress.
-Constants: archivo donde se encuentran datos estaticos como la url de la app, mensajes de la app, numeros entre otras cosas.
-Images: clase para el cargado de imagenes con glide.
-RequestImage: clase de pre-requisito para el uso de cargado de imagenes con glide.
+* BaseFragment: tiene implementaciones de uso general para los fragmentos en este caso alerta y progress.
+* Constants: archivo donde se encuentran datos estaticos como la url de la app, mensajes de la app, numeros entre otras cosas.
+* Images: clase para el cargado de imagenes con glide.
+* RequestImage: clase de pre-requisito para el uso de cargado de imagenes con glide.
